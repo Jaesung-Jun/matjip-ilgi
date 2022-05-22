@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: Constants.APP_INFO,
       theme: ThemeData(
@@ -65,6 +66,11 @@ class _MyHomePageState extends State<MainPage> {
                   view: CalendarView.month,
                   firstDayOfWeek: 1,
                   onTap: isDiaryWrote,
+                  monthViewSettings: MonthViewSettings(
+                      showAgenda: true,
+                      appointmentDisplayCount: 3,
+                      agendaViewHeight: 100,
+                  ),
               ),
             ]
         ),
