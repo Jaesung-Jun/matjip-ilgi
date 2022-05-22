@@ -3,10 +3,16 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'widgets.dart';
+import 'restaurant_tag.dart';
 
-class InputRestaurantInformationPage extends StatelessWidget {
+class InputRestaurantInformationPage extends StatefulWidget {
   const InputRestaurantInformationPage({Key? key}) : super(key: key);
 
+  @override
+  State<InputRestaurantInformationPage> createState() => _InputRestaurantInformationPageState();
+}
+
+class _InputRestaurantInformationPageState extends State<InputRestaurantInformationPage> {
   // 이미지 불러오기
   Future<void> loadImage() async {
     final ImagePicker _picker = ImagePicker();
@@ -56,7 +62,36 @@ class InputRestaurantInformationPage extends StatelessWidget {
                 )
             ),
           ),
-          titleAndInput("날짜", restaurantTexts("{SelectedDate}", 20.0))
+          Row(
+            children: <Widget>[
+              restaurantInputTexts("날짜"),
+              restaurantTexts("{selected_date}", 10.0),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              restaurantInputTexts("일기\n제목"),
+              restaurantTextBox("일기 제목", "일기의 제목을 입력해주세요.", 400, 10.0),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              restaurantInputTexts("평점"),
+              restaurantStars(context, 10.0),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              restaurantInputTexts("위치"),
+              restaurantTextBox("위치", "", 400, 10.0),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              restaurantInputTexts("일기\n\n\n\n\n\n\n\n\n\n"),
+              restaurantBigTextBox("", "", 400, 10.0),
+            ],
+          )
         ],
       ),
     );

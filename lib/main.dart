@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          Constants.APP_NAME,
+          Constants.APP_INFO,
           textAlign: TextAlign.left,
         ),
         actions: <Widget>[
