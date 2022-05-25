@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
+import 'phone_size.dart';
 import 'widgets.dart';
 import 'restaurant_tag.dart';
 
@@ -48,52 +50,63 @@ class _InputRestaurantInformationPageState extends State<InputRestaurantInformat
           },
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Center(
-            child: Padding(
-                padding: EdgeInsets.fromLTRB(8, 150, 8, 150),
-                child: IconButton(
-                  icon: Icon(Icons.image),
-                  iconSize: 50,
-                  onPressed: loadImage,
-                )
+      body: SingleChildScrollView(
+        child: ListBody(
+          //mainAxisAlignment: MainAxisAlignment.start,
+          //crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Center(
+              child: CarouselSlider(
+                options: CarouselOptions(height: 400.0),
+                items: [1,2,3,4,5].map((i) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                          width: getPhoneSize(context).width,
+                          margin: EdgeInsets.symmetric(horizontal: 5.0),
+                          child: Text(
+                            'text $i',
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                      );
+                    },
+                  );
+                }).toList(),
+              )
             ),
-          ),
-          Row(
-            children: <Widget>[
-              restaurantInputTexts("날짜"),
-              restaurantTexts("{selected_date}", 10.0),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              restaurantInputTexts("일기\n제목"),
-              restaurantTextBox("일기 제목", "일기의 제목을 입력해주세요.", 400, 10.0),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              restaurantInputTexts("평점"),
-              restaurantStars(context, 10.0),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              restaurantInputTexts("위치"),
-              restaurantTextBox("위치", "", 400, 10.0),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              restaurantInputTexts("일기\n\n\n\n\n\n\n\n\n\n"),
-              restaurantBigTextBox("", "", 400, 10.0),
-            ],
-          )
-        ],
-      ),
+            Row(
+              children: <Widget>[
+                restaurantInputTexts("날짜"),
+                restaurantTexts("{selected_date}", 10.0),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                restaurantInputTexts("일기\n제목"),
+                restaurantTextBox("일기 제목", "일기의 제목을 입력해주세요.", 300, 10.0),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                restaurantInputTexts("평점"),
+                restaurantStars(context, 10.0),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                restaurantInputTexts("위치"),
+                restaurantTextBox("위치", "", 300, 10.0),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                restaurantInputTexts("일기\n\n\n\n\n\n\n\n\n\n"),
+                restaurantBigTextBox("", "", 300, 10.0),
+              ],
+            )
+          ],
+        ),
+      )
     );
   }
 }
