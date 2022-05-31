@@ -162,89 +162,6 @@ Widget carouselImageSlider(List image_list){
   );
 }
 
-// Generated code for this HomePage Widget...
-Widget imageSlider(BuildContext context){
-  // Generated code for this HomePage Widget...
-  PageController pageViewController = new PageController();
-  return SafeArea(
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                height: 500,
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 50),
-                      child: PageView(
-                        controller: pageViewController ??=
-                            PageController(initialPage: 0),
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          Image.network(
-                            'https://picsum.photos/seed/857/600',
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
-                          Image.network(
-                            'https://picsum.photos/seed/232/600',
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
-                          Image.network(
-                            'https://picsum.photos/seed/702/600',
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Align(
-                      alignment: AlignmentDirectional(0, 1),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                        child: SmoothPageIndicator(
-                          controller: pageViewController ??=
-                              PageController(initialPage: 0),
-                          count: 3,
-                          axisDirection: Axis.horizontal,
-                          onDotClicked: (i) {
-                            pageViewController.animateToPage(
-                              i,
-                              duration: Duration(milliseconds: 500),
-                              curve: Curves.ease,
-                            );
-                          },
-                          effect: ExpandingDotsEffect(
-                            expansionFactor: 2,
-                            spacing: 8,
-                            radius: 16,
-                            dotWidth: 16,
-                            dotHeight: 16,
-                            dotColor: Color(0xFF9E9E9E),
-                            activeDotColor: Color(0xFF3F51B5),
-                            paintStyle: PaintingStyle.fill,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-}
-
 Widget saveButton(){
   return Container(
       child: OutlinedButton(
@@ -254,6 +171,17 @@ Widget saveButton(){
       ),
   );
 }
+
+Widget mapAPIButton(){
+  return Container(
+    child: OutlinedButton(
+      onPressed: () =>{
+      },
+      child: Text("지도"),
+    )
+  );
+}
+
 
 double getStarRating(){
   return rating_;

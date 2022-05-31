@@ -8,9 +8,8 @@ import 'widgets.dart';
 import 'restaurant_tag.dart';
 
 class InputRestaurantInformationPage extends StatefulWidget {
-  const InputRestaurantInformationPage({Key? key}
-      ) : super(key: key);
-
+  final String date;
+  const InputRestaurantInformationPage({Key? key, @required this.date=""}) : super(key: key);
   @override
   State<InputRestaurantInformationPage> createState() => _InputRestaurantInformationPageState();
 }
@@ -24,7 +23,7 @@ class _InputRestaurantInformationPageState extends State<InputRestaurantInformat
     if (image != null) cropImage(image.path);
   }
 
-// 이미지 자르기
+  // 이미지 자르기
   Future<void> cropImage(String imagePath) async {
     const MAX_WIDTH = 1920;
     const MAX_HEIGHT = 1080;
@@ -62,12 +61,12 @@ class _InputRestaurantInformationPageState extends State<InputRestaurantInformat
             Row(
               children: <Widget>[
                 restaurantInputTexts("날짜"),
-                restaurantTexts("{selected_date}", 10.0),
+                restaurantTexts(widget.date, 10.0),
               ],
             ),
             Row(
               children: <Widget>[
-                restaurantInputTexts("일기\n제목"),
+                restaurantInputTexts("제목"),
                 restaurantTextBox("일기 제목", "일기의 제목을 입력해주세요.", 300, 10.0),
               ],
             ),
@@ -80,7 +79,8 @@ class _InputRestaurantInformationPageState extends State<InputRestaurantInformat
             Row(
               children: <Widget>[
                 restaurantInputTexts("위치"),
-                restaurantTextBox("위치", "", 300, 10.0),
+                restaurantTextBox("위치", "", 230, 10.0),
+                mapAPIButton(),
               ],
             ),
             Row(
@@ -92,7 +92,7 @@ class _InputRestaurantInformationPageState extends State<InputRestaurantInformat
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                saveButton(0.0),
+                saveButton(),
               ],
             )
           ],

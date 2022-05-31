@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'constants.dart';
@@ -37,10 +37,14 @@ class MainPage extends StatefulWidget {
 class _MyHomePageState extends State<MainPage> {
   var _index = 0;
 
-  void isDiaryWrote(CalendarTapDetails){
+  void isDiaryWrote(CalendarTapDetails details){
+    DateTime date = details.date!;
+    DateFormat formatter = DateFormat('yyyy-MM-dd');
+    String formatted_date = formatter.format(date);
+    print(formatted_date);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => InputRestaurantInformationPage())
+      MaterialPageRoute(builder: (context) => InputRestaurantInformationPage(date: formatted_date))
     );
   }
 
