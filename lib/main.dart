@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'constants.dart';
 import 'input_restaurant_info.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'get_send_data.dart';
 
 
-
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
@@ -37,15 +41,26 @@ class MainPage extends StatefulWidget {
 class _MyHomePageState extends State<MainPage> {
   var _index = 0;
 
-  void isDiaryWrote(CalendarTapDetails details){
+  void isDiaryWrote(CalendarTapDetails details) async {
     DateTime date = details.date!;
     DateFormat formatter = DateFormat('yyyy-MM-dd');
     String formatted_date = formatter.format(date);
-    print(formatted_date);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => InputRestaurantInformationPage(date: formatted_date))
-    );
+
+    var getDate = await getDataFromFirebase(formatted_date, "date");
+    bool isExists = (getDate != null) ? true : false;
+    if(!isExists){
+      //입력화면
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => InputRestaurantInformationPage(date: formatted_date))
+      );
+    }else{
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => InputRestaurantInformationPage(date: formatted_date))
+      );
+    }
+
   }
 
   @override
