@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'widgets.dart';
+import 'widgets/input_restaurant_info_widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class InputRestaurantInformationPage extends StatefulWidget {
@@ -18,7 +18,6 @@ class _InputRestaurantInformationPageState extends State<InputRestaurantInformat
       //print(widget.date);
       //print(getDataFromFirebase(widget.date, "date"));
     });
-
     () async {
       var _permissionStatus = await Permission.storage.status;
 
@@ -33,6 +32,9 @@ class _InputRestaurantInformationPageState extends State<InputRestaurantInformat
 
   @override
   Widget build(BuildContext context) {
+
+    InputRestaurantInfoWidgets widgets = InputRestaurantInfoWidgets();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -48,43 +50,43 @@ class _InputRestaurantInformationPageState extends State<InputRestaurantInformat
           //crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Center(
-              child: carouselImageSlider(),
+              child: widgets.carouselImageSlider(),
             ),
             Row(
               children: <Widget>[
-                restaurantInputTexts("날짜"),
-                dateTexts(widget.date, 10.0),
+                widgets.restaurantInputTexts("날짜"),
+                widgets.dateTexts(widget.date, 10.0),
               ],
             ),
             Row(
               children: <Widget>[
-                restaurantInputTexts("제목"),
-                titleTextBox("일기 제목", "일기의 제목을 입력해주세요.", 300, 10.0, setState),
+                widgets.restaurantInputTexts("제목"),
+                widgets.titleTextBox("일기 제목", "일기의 제목을 입력해주세요.", 300, 10.0, setState),
               ],
             ),
             Row(
               children: <Widget>[
-                restaurantInputTexts("평점"),
-                restaurantStars(context, 10.0),
+                widgets.restaurantInputTexts("평점"),
+                widgets.restaurantStars(context, 10.0),
               ],
             ),
             Row(
               children: <Widget>[
-                restaurantInputTexts("위치"),
-                positionTextBox("위치", "", 230, 10.0, setState),
-                mapAPIButton(),
+                widgets.restaurantInputTexts("위치"),
+                widgets.positionTextBox("위치", "", 230, 10.0, setState),
+                widgets.mapAPIButton(),
               ],
             ),
             Row(
               children: <Widget>[
-                restaurantInputTexts("일기\n\n\n\n\n\n\n\n\n\n"),
-                diaryTextBox("", "", 300, 10.0, setState),
+                widgets.restaurantInputTexts("일기\n\n\n\n\n\n\n\n\n\n"),
+                widgets.diaryTextBox("", "", 300, 10.0, setState),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                saveButton(context),
+                widgets.saveButton(context),
               ],
             )
           ],

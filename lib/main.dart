@@ -5,8 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'constants.dart';
 import 'input_restaurant_info.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'get_send_data.dart';
+import 'utils/get_send_data.dart';
+import 'show_restaurant_info.dart';
 
 
 void main() async {
@@ -44,20 +44,29 @@ class _MyHomePageState extends State<MainPage> {
   void isDiaryWrote(CalendarTapDetails details) async {
     DateTime date = details.date!;
     DateFormat formatter = DateFormat('yyyy-MM-dd');
-    String formatted_date = formatter.format(date);
+    final String formattedDate = formatter.format(date);
 
-    var getDate = await getDataFromFirebase(formatted_date, "date");
+    var getDate = await getDataFromFirebase(formattedDate, "date");
     bool isExists = (getDate != null) ? true : false;
+
     if(!isExists){
       //입력화면
       Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => InputRestaurantInformationPage(date: formatted_date))
+          MaterialPageRoute(builder: (context) => InputRestaurantInformationPage(date: formattedDate))
       );
     }else{
+      Map restaurantInfo = {
+        'date': await getDataFromFirebase(formattedDate, "date"),
+        'diary': await getDataFromFirebase(formattedDate, "diary"),
+        "images": await getDataFromFirebase(formattedDate, "images"),
+        "restaurantPosition": await getDataFromFirebase(formattedDate, "restaurantPosition"),
+        "restaurantStars": await getDataFromFirebase(formattedDate, "restaurantStars"),
+        "title": await getDataFromFirebase(formattedDate, "title"),
+      };
       Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => InputRestaurantInformationPage(date: formatted_date))
+          MaterialPageRoute(builder: (context) => ShowRestaurantInformationPage(restaurantInfo: restaurantInfo))
       );
     }
 
@@ -67,15 +76,15 @@ class _MyHomePageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           Constants.APP_INFO,
           textAlign: TextAlign.left,
         ),
         actions: <Widget>[
-          new IconButton(
+          IconButton(
               onPressed: () => {},
               tooltip: '메뉴',
-              icon: Icon(Icons.menu),
+              icon: const Icon(Icons.menu),
           )
         ],
       ),
@@ -86,7 +95,7 @@ class _MyHomePageState extends State<MainPage> {
                   view: CalendarView.month,
                   firstDayOfWeek: 1,
                   onTap: isDiaryWrote,
-                  monthViewSettings: MonthViewSettings(
+                  monthViewSettings: const MonthViewSettings(
                       showAgenda: true,
                       appointmentDisplayCount: 3,
                       agendaViewHeight: 100,
@@ -101,7 +110,7 @@ class _MyHomePageState extends State<MainPage> {
           });
         },
         currentIndex: _index,
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             label: '캘린더로 보기',
             icon: Icon(Icons.calendar_month),
