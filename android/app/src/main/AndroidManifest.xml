@@ -1,9 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.matjip_ilgi">
    <application
-        android:label="matjip_ilgi"
+        android:label="맛집일기"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:usesCleartextTraffic="true"
+        android:icon="@mipmap/matjip_ilgi">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

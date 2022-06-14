@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:matjip_ilgi/widgets/show_restaurant_info_widgets.dart';
+import 'widgets/show_restaurant_info_widgets.dart';
 
 class ShowRestaurantInformationPage extends StatefulWidget {
 
-  const ShowRestaurantInformationPage({Key? key, required this.restaurantInfo}) : super(key: key);
+  const ShowRestaurantInformationPage({Key? key, required this.restaurantInfo, required this.refreshParent}) : super(key: key);
+  final Function refreshParent;
   final Map restaurantInfo;
 
   @override
@@ -30,9 +31,32 @@ class _ShowRestaurantInformationPageState extends State<ShowRestaurantInformatio
           //mainAxisAlignment: MainAxisAlignment.start,i
           //crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Center(
-              child: widgets.carouselImageSlider(),
+            Container(
+              child: FutureBuilder(
+                  future: widgets.carouselImageShowSlider(widget.restaurantInfo['images']),
+                  builder: (BuildContext context, AsyncSnapshot snapshot){
+                    if(snapshot.hasData == false){
+                      return const Padding(
+                        padding: EdgeInsets.all(162.0),
+                        child: CircularProgressIndicator(strokeWidth: 5),
+                      );
+                    }else if (snapshot.hasError) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Error: ${snapshot.error}',
+                          style: const TextStyle(fontSize: 15),
+                        ),
+                      );
+                    }else{
+                      return Center(
+                        child: snapshot.data,
+                      );
+                    }
+                  },
+              ),
             ),
+
             Row(
               children: <Widget>[
                 widgets.restaurantInputTexts("날짜"),
@@ -42,32 +66,31 @@ class _ShowRestaurantInformationPageState extends State<ShowRestaurantInformatio
             Row(
               children: <Widget>[
                 widgets.restaurantInputTexts("제목"),
-                widgets.titleTextBox(widget.restaurantInfo['title'], "", 300, 10.0, setState),
+                widgets.titleTextBox(widget.restaurantInfo['title'], "", 300, 10.0),
               ],
             ),
             Row(
               children: <Widget>[
                 widgets.restaurantInputTexts("평점"),
-                //widgets.restaurantStars(context, 10.0),
+                widgets.restaurantStars(context, widget.restaurantInfo['restaurantStars'], 10.0, setState),
               ],
             ),
             Row(
               children: <Widget>[
-                widgets.restaurantInputTexts("위치"),
-                //widgets.positionTextBox("위치", "", 230, 10.0, setState),
-                //widgets.mapAPIButton(),
+                widgets.restaurantInputTexts("주소"),
+                widgets.positionTextBox(widget.restaurantInfo['address'], "", 300, 10.0),
               ],
             ),
             Row(
               children: <Widget>[
                 widgets.restaurantInputTexts("일기\n\n\n\n\n\n\n\n\n\n"),
-                //widgets.diaryTextBox("", "", 300, 10.0, setState),
+                widgets.diaryTextBox(widget.restaurantInfo['diary'], "", 300, 10.0),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                //widgets.saveButton(context),
+                widgets.backButton(context, widget),
               ],
             )
           ],

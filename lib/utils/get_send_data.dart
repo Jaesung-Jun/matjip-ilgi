@@ -10,6 +10,17 @@ Future<dynamic> getDataFromFirebase(String date, String field) async {
   });
   return data;
 }
+Future<List<dynamic>> getAllDatesFromFirebase() async {
+  QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("matjip_ilgi").get();
+  var list = querySnapshot.docs;
+  var listByDate = [];
+  List<String> dateList = List.filled(list.length, "");
+  for(var i=0;i<list.length;i++){
+    dateList[i] = list[i].data()?["date"];
+  }
+  return dateList;
+}
+
 Future<void> updateDataToFirebase(String date, String field, dynamic updateValue) async {
   FirebaseFirestore.instance.collection("matjip_ilgi").doc(date).update({
     field: updateValue,
@@ -30,12 +41,13 @@ Future<void> addNecessaryDataToFirebase(String date) async {
       "date": date,
       "diary": "",
       "images": [null,null,null,null,null],
+      "address": "",
       "restaurantPosition": const GeoPoint(33, 33),
       "restaurantStars": 3,
       "title": "",
     });
-    print("생성!");
+    //print("생성!");
   }else{
-    print("이미 존재!");
+    //print("이미 존재!");
   }
 }

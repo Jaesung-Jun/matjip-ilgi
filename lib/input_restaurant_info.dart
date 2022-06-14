@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:matjip_ilgi/widgets/restaurant_infos.dart';
 import 'widgets/input_restaurant_info_widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class InputRestaurantInformationPage extends StatefulWidget {
+  const InputRestaurantInformationPage({Key? key, this.date="", required this.refreshParent}) : super(key: key);
   final String date;
-  const InputRestaurantInformationPage({Key? key, @required this.date=""}) : super(key: key);
+  final Function refreshParent;
   @override
   State<InputRestaurantInformationPage> createState() => _InputRestaurantInformationPageState();
 }
 
 class _InputRestaurantInformationPageState extends State<InputRestaurantInformationPage> {
-  // 이미지 불러오기
+
+  List<dynamic> sliderWidgetList = List.filled(5, null);
+
   @override
   initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      //print(widget.date);
-      //print(getDataFromFirebase(widget.date, "date"));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      RestaurantInfo.date = widget.date;
     });
     () async {
       var _permissionStatus = await Permission.storage.status;
@@ -31,8 +34,12 @@ class _InputRestaurantInformationPageState extends State<InputRestaurantInformat
   }
 
   @override
-  Widget build(BuildContext context) {
+  void dispose(){
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     InputRestaurantInfoWidgets widgets = InputRestaurantInfoWidgets();
 
     return Scaffold(
@@ -50,7 +57,7 @@ class _InputRestaurantInformationPageState extends State<InputRestaurantInformat
           //crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Center(
-              child: widgets.carouselImageSlider(),
+              child: widgets.carouselImageSlider(setState, sliderWidgetList),
             ),
             Row(
               children: <Widget>[
@@ -61,32 +68,32 @@ class _InputRestaurantInformationPageState extends State<InputRestaurantInformat
             Row(
               children: <Widget>[
                 widgets.restaurantInputTexts("제목"),
-                widgets.titleTextBox("일기 제목", "일기의 제목을 입력해주세요.", 300, 10.0, setState),
+                widgets.titleTextBox("일기 제목", "일기의 제목을 입력해주세요.", 300, 10.0),
               ],
             ),
             Row(
               children: <Widget>[
                 widgets.restaurantInputTexts("평점"),
-                widgets.restaurantStars(context, 10.0),
+                widgets.restaurantStars(context, 3.0, 10.0, setState),
               ],
             ),
             Row(
               children: <Widget>[
-                widgets.restaurantInputTexts("위치"),
-                widgets.positionTextBox("위치", "", 230, 10.0, setState),
-                widgets.mapAPIButton(),
+                widgets.restaurantInputTexts("주소"),
+                //widgets.positionTextBox("위치", RestaurantInfo.address, 230, 10.0),
+                widgets.mapAPIButton(context, setState),
               ],
             ),
             Row(
               children: <Widget>[
                 widgets.restaurantInputTexts("일기\n\n\n\n\n\n\n\n\n\n"),
-                widgets.diaryTextBox("", "", 300, 10.0, setState),
+                widgets.diaryTextBox("", "", 300, 10.0),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                widgets.saveButton(context),
+                widgets.saveButton(context, widget),
               ],
             )
           ],
